@@ -132,7 +132,123 @@
 </div>
 </section>
 
-<section class="ftco-section">
+
+<section class="ftco-section ftco-no-pb">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="search-wrap-1 ftco-animate">
+               <form action="{% url 'predict_destination' %}" method="POST" class="search-property-1">
+                  {% csrf_token %}
+                  <div class="row no-gutters">
+                     <!-- Section -->
+                     <div class="col-lg d-flex">
+                        <div class="form-group p-4 border-0">
+                           <label for="#">Section</label>
+                           <div class="form-field">
+                              <div class="select-wrap">
+                                 <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                 <select name="section" class="form-control">
+                                    <option value="North">North</option>
+                                    <option value="South">South</option>
+                                    <option value="East">East</option>
+                                    <option value="West">West</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <!-- Destination Type -->
+                     <div class="col-lg d-flex">
+                        <div class="form-group p-4 border-0">
+                           <label for="#">Destination Type</label>
+                           <div class="form-field">
+                              <div class="select-wrap">
+                                 <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                 <select name="destination_type" class="form-control">
+                                    <option value="Beach">Beach</option>
+                                    <option value="Hill Station">Hill Station</option>
+                                    <option value="Religious">Religious</option>
+                                    <option value="Adventure">Adventure</option>
+                                    <option value="Wildlife">Wildlife</option>
+                                    <option value="Desert">Desert</option>
+                                    <option value="Historical">Historical</option>
+                                    <option value="Backwaters">Backwaters</option>
+                                    <option value="Island">Island</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <!-- Check-in -->
+                     <div class="col-lg d-flex">
+                        <div class="form-group p-4">
+                           <label for="#">Check-in date</label>
+                           <div class="form-field">
+                              <div class="icon"><span class="fa fa-calendar"></span></div>
+                              <input type="date" class="form-control" name="checkin_date" required>
+                           </div>
+                        </div>
+                     </div>
+
+                     <!-- Check-out -->
+                     <div class="col-lg d-flex">
+                        <div class="form-group p-4">
+                           <label for="#">Check-out date</label>
+                           <div class="form-field">
+                              <div class="icon"><span class="fa fa-calendar"></span></div>
+                              <input type="date" class="form-control" name="checkout_date" required>
+                           </div>
+                        </div>
+                     </div>
+
+                     <!-- Price -->
+                     <div class="col-lg d-flex">
+                        <div class="form-group p-4">
+                           <label for="#">Price Limit</label>
+                           <div class="form-field">
+                              <div class="select-wrap">
+                                 <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                 <select name="price" class="form-control">
+                                    <option value="5000">$5,000</option>
+                                    <option value="10000">$10,000</option>
+                                    <option value="50000">$50,000</option>
+                                    <option value="100000">$100,000</option>
+                                    <option value="200000">$200,000</option>
+                                    <option value="300000">$300,000</option>
+                                    <option value="400000">$400,000</option>
+                                    <option value="500000">$500,000</option>
+                                    <option value="600000">$600,000</option>
+                                    <option value="700000">$700,000</option>
+                                    <option value="800000">$800,000</option>
+                                    <option value="900000">$900,000</option>
+                                    <option value="1000000">$1,000,000</option>
+                                    <option value="2000000">$2,000,000</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <!-- Submit -->
+                     <div class="col-lg d-flex">
+                        <div class="form-group d-flex w-100 border-0">
+                           <div class="form-field w-100 align-items-center d-flex">
+                              <input type="submit" value="Predict Destination" class="align-self-stretch form-control btn btn-primary">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+{% comment %} <section class="ftco-section">
    <div class="container">
     <div class="row">
        <!-- DESTINATION 1 -->
@@ -315,7 +431,7 @@
 </div>
 </div>
 </div>
-</section>
+</section> {% endcomment %}
 
 <section class="ftco-intro ftco-section ftco-no-pt">
  <div class="container">
