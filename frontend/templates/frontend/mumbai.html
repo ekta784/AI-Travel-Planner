@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block bg %}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{% static "images/mumbai1.jpg" %}');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+      <div class="col-md-9 ftco-animate pb-5 text-center">
+        <h1 class="mb-0 bread">Mumbai</h1>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="ftco-section">
+  <div class="container">
+    <div class="row d-flex">
+      <div class="col-md-6 ftco-animate">
+        <img src="{% static 'images/mumbai2.jpg' %}" class="img-fluid" alt="Mumbai Overview">
+      </div>
+      <div class="col-md-6 ftco-animate">
+        <h2>Explore the City of Dreams</h2>
+        <p>Mumbai, the financial capital of India, is a city that never sleeps. From Bollywood to Marine Drive and local street food, it offers a mix of modern and historical experiences.</p>
+        <p>Come explore its vibrant culture and fast-paced life!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center pb-4">
+      <div class="col-md-12 heading-section text-center ftco-animate">
+        <h2 class="mb-4">Mumbai Tour Packages</h2>
+        <span class="subheading">City, Cinema, and Culture</span>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/mumbai3.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>1-Day City Highlights</h3>
+            <p><strong>Price:</strong> ₹2,999</p>
+            <ul>
+              <li>Gateway of India</li>
+              <li>Marine Drive</li>
+              <li>Chhatrapati Shivaji Maharaj Terminus</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/mumbai4.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>3-Day Cultural Trip</h3>
+            <p><strong>Price:</strong> ₹6,999</p>
+            <ul>
+              <li>Bollywood Studio Tour</li>
+              <li>Dharavi Slum Visit</li>
+              <li>Elephanta Caves</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/mumbai5.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>5-Day Full Experience</h3>
+            <p><strong>Price:</strong> ₹10,499</p>
+            <ul>
+              <li>All major sites + Beach visits</li>
+              <li>Food trails</li>
+              <li>Personalized guide</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="ftco-intro ftco-section ftco-no-pb">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-md-10">
+        <h2 class="mb-3" style=" color: #111;">Book Your Mumbai Experience Now!</h2>
+        <p><a href="{% url 'contact' %}" class="btn btn-primary py-3 px-4">Contact Us</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

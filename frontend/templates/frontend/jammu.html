@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block bg %}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{% static "images/jk1.jpg" %}');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+      <div class="col-md-9 ftco-animate pb-5 text-center">
+        <h1 class="mb-0 bread">Jammu & Kashmir</h1>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="ftco-section">
+  <div class="container">
+    <div class="row d-flex">
+      <div class="col-md-6 ftco-animate">
+        <img src="{% static 'images/jk2.jpg' %}" class="img-fluid" alt="Jammu & Kashmir">
+      </div>
+      <div class="col-md-6 ftco-animate">
+        <h2>Paradise on Earth</h2>
+        <p>Jammu & Kashmir offers breathtaking landscapes, snow-capped mountains, and serene lakes. Whether it's the spiritual aura of Vaishno Devi or the romantic charm of a Shikara ride in Dal Lake – it's a place that lives in every traveler’s dream.</p>
+        <p>Best for couples, pilgrims, and peace-seekers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center pb-4">
+      <div class="col-md-12 heading-section text-center ftco-animate">
+        <h2 class="mb-4">Kashmir Packages</h2>
+        <span class="subheading">Heavenly Views & Heritage</span>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/jk3.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>2-Day Jammu Darshan</h3>
+            <p><strong>Price:</strong> ₹3,499</p>
+            <ul>
+              <li>Vaishno Devi temple visit</li>
+              <li>Raghunath Mandir</li>
+              <li>Jammu local market tour</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/jk4.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>4-Day Kashmir Tour</h3>
+            <p><strong>Price:</strong> ₹7,999</p>
+            <ul>
+              <li>Srinagar houseboat stay</li>
+              <li>Gulmarg & Pahalgam visits</li>
+              <li>Shikara ride on Dal Lake</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/jk5.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>7-Day J&K Explorer</h3>
+            <p><strong>Price:</strong> ₹12,999</p>
+            <ul>
+              <li>Complete Jammu & Kashmir coverage</li>
+              <li>Snow fun, trekking, and city tours</li>
+              <li>Deluxe stay with guide</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="ftco-intro ftco-section ftco-no-pb">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-md-10">
+        <h2 class="mb-3" style="color: #111;">Let’s Experience Heaven on Earth!</h2>
+        <p><a href="{% url 'contact' %}" class="btn btn-primary py-3 px-4">Book Now</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

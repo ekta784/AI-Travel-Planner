@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block bg %}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{% static 'images/r1.jpg' %}');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+      <div class="col-md-9 ftco-animate pb-5 text-center">
+        <h1 class="mb-0 bread">Rishikesh</h1>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+
+{% block content %}
+
+<!-- About Rishikesh -->
+<section class="ftco-section">
+  <div class="container">
+    <div class="row d-flex">
+      <div class="col-md-6 ftco-animate">
+        <img src="{% static 'images/r2.jpg' %}" class="img-fluid" alt="Rishikesh Overview">
+      </div>
+      <div class="col-md-6 ftco-animate">
+        <h2>Welcome to the Land of Spirituality and Adventure</h2>
+        <p>Rishikesh, nestled in the foothills of the Himalayas beside the Ganges River, is a magnet for spiritual seekers and thrill lovers. Known as the Yoga Capital of the World, it's also famous for white-water rafting, scenic landscapes, and iconic temples.</p>
+        <p>Whether you're in search of inner peace or adrenaline-pumping adventures, Rishikesh is the perfect destination.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tour Packages -->
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center pb-4">
+      <div class="col-md-12 heading-section text-center ftco-animate">
+        <h2 class="mb-4">Rishikesh Tour Packages</h2>
+        <span class="subheading">Choose Your Perfect Experience</span>
+      </div>
+    </div>
+    <div class="row">
+
+      <!-- Tour Plan 1 -->
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/r3.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>2-Day Spiritual Retreat</h3>
+            <p><strong>Price:</strong> ₹4,999</p>
+            <p><strong>Best Time:</strong> October to March</p>
+            <ul>
+              <li>Ganga Aarti at Triveni Ghat</li>
+              <li>Visit to Parmarth Niketan Ashram</li>
+              <li>Morning yoga session by the river</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour Plan 2 -->
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/r4.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>3-Day Adventure Trip</h3>
+            <p><strong>Price:</strong> ₹7,999</p>
+            <p><strong>Best Time:</strong> March to June</p>
+            <ul>
+              <li>White-water rafting</li>
+              <li>Bungee jumping at Mohan Chatti</li>
+              <li>Camping and bonfire</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour Plan 3 -->
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/img2.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>5-Day Full Experience</h3>
+            <p><strong>Price:</strong> ₹12,499</p>
+            <p><strong>Best Time:</strong> September to April</p>
+            <ul>
+              <li>Spiritual sites + Adventure activities</li>
+              <li>Local cuisine tour</li>
+              <li>Personalized yoga and meditation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="ftco-intro ftco-section ftco-no-pb">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-md-10">
+        <h2 class="mb-3" style=" color: #111;">Book Your Rishikesh Experience Now!</h2>
+        <p><a href="{% url 'contact' %}" class="btn btn-primary py-3 px-4">Contact Us</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

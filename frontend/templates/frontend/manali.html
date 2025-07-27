@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block bg %}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{% static "images/shimla1.jpg" %}');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+      <div class="col-md-9 ftco-animate pb-5 text-center">
+        <h1 class="mb-0 bread">Shimla & Manali</h1>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="ftco-section">
+  <div class="container">
+    <div class="row d-flex">
+      <div class="col-md-6 ftco-animate">
+        <img src="{% static 'images/shimla2.jpg' %}" class="img-fluid" alt="Shimla & Manali">
+      </div>
+      <div class="col-md-6 ftco-animate">
+        <h2>Snowy Getaways & Himalayan Bliss</h2>
+        <p>Shimla and Manali, nestled in the heart of Himachal Pradesh, are famous for their snow-capped peaks, pine forests, colonial charm, and thrilling adventure sports.</p>
+        <p>Perfect for honeymooners, trekkers, and nature lovers alike!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center pb-4">
+      <div class="col-md-12 heading-section text-center ftco-animate">
+        <h2 class="mb-4">Himalayan Tour Packages</h2>
+        <span class="subheading">Chill, Thrill, and Tranquility</span>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/shimla3.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>3-Day Shimla Trip</h3>
+            <p><strong>Price:</strong> ₹4,999</p>
+            <ul>
+              <li>The Ridge, Mall Road</li>
+              <li>Kufri snow activities</li>
+              <li>Local Himachali cuisine</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/shimla4.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>5-Day Manali Adventure</h3>
+            <p><strong>Price:</strong> ₹8,999</p>
+            <ul>
+              <li>Solang Valley & Rohtang Pass</li>
+              <li>River rafting & paragliding</li>
+              <li>Bonfire and mountain stay</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 ftco-animate">
+        <div class="project-wrap">
+          <a href="#" class="img" style="background-image: url('{% static "images/shimla5.jpg" %}');"></a>
+          <div class="text p-4">
+            <h3>7-Day Shimla-Manali Combo</h3>
+            <p><strong>Price:</strong> ₹14,999</p>
+            <ul>
+              <li>Complete hill experience</li>
+              <li>Luxury transport</li>
+              <li>Photography + local guide</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="ftco-intro ftco-section ftco-no-pb">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-md-10">
+        <h2 class="mb-3" style="color: #111;">Pack Your Winter Bags – Let’s Go!</h2>
+        <p><a href="{% url 'contact' %}" class="btn btn-primary py-3 px-4">Book Now</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
