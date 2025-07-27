@@ -11,6 +11,4 @@ urlpatterns = [
     path('hotel/', views.hotel, name='hotel'),
     path('main/', views.main_page, name='main'),
     path('rishikesh/', views.rishikesh, name='rishikesh'),
-    path('predict-destination/', views.predict_destination, name='predict_destination'),
-    path('predict/', views.predict_destination, name='predict_destination'),
 ]
