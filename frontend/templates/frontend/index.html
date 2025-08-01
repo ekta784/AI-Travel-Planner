@@ -65,7 +65,7 @@
     </div>
 
     <!-- SEARCH SECTION -->
-    <section class="ftco-section ftco-no-pb ftco-no-pt">
+    {% comment %} <section class="ftco-section ftco-no-pb ftco-no-pt">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -228,7 +228,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
 
 		<section class="ftco-section services-section">
     <div class="container">
@@ -312,40 +312,50 @@
                     </div>
                     <div class="item">
                         <div class="project-destination">
-                            <a href="#" class="img" style="background-image: url('{% static "images/place-2.jpg" %}');">
+                            <a href="{% url 'goa' %}" class="img" style="background-image: url('{% static "images/g.jpeg"  %}');">
                                 <div class="text">
-                                    <h3>Canada</h3>
-                                    <span>2 Tours</span>
+                                    <h3>Goa</h3>
+                                    <span>3 Tours</span>
                                 </div>
                             </a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="project-destination">
-                            <a href="#" class="img" style="background-image: url('{% static "images/place-3.jpg" %}');">
+                            <a href="{% url 'jammu' %}" class="img" style="background-image: url('{% static "images/j.jpg" %}');">
                                 <div class="text">
-                                    <h3>Thailand</h3>
-                                    <span>5 Tours</span>
+                                    <h3>Jammu</h3>
+                                    <span>3 Tours</span>
                                 </div>
                             </a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="project-destination">
-                            <a href="#" class="img" style="background-image: url('{% static "images/place-4.jpg" %}');">
+                            <a href="{% url 'mumbai' %}" class="img" style="background-image: url('{% static "images/m.jpg" %}');">
                                 <div class="text">
-                                    <h3>Autralia</h3>
-                                    <span>5 Tours</span>
+                                    <h3>Mumbai</h3>
+                                    <span>3 Tours</span>
                                 </div>
                             </a>
                         </div>
                     </div>
                     <div class="item">
                         <div class="project-destination">
-                            <a href="#" class="img" style="background-image: url('{% static "images/place-5.jpg" %}');">
+                            <a href="{% url 'kerala' %}" class="img" style="background-image: url('{% static "images/k.webp" %}');">
                                 <div class="text">
-                                    <h3>Greece</h3>
-                                    <span>7 Tours</span>
+                                    <h3>kerala</h3>
+                                    <span>3 Tours</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="project-destination">
+                            <a href="{% url 'manali' %}" class="img" style="background-image: url('{% static "images/sm.avif" %}');">
+                                <div class="text">
+                                    <h3>Shimla Manali</h3>
+                                    <span>3 Tours</span>
                                 </div>
                             </a>
                         </div>

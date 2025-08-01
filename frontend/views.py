@@ -45,6 +45,20 @@ def main_page(request):
 def rishikesh(request):
     return render(request, 'frontend/rishikesh.html')
 
+def goa(request):
+    return render(request, 'frontend/goa.html')
+
+def mumbai(request):
+    return render(request, 'frontend/mumbai.html')
+
+def manali(request):
+    return render(request, 'frontend/manali.html')
+
+def kerala(request):
+    return render(request, 'frontend/kerala.html')
+
+def jammu(request):
+    return render(request, 'frontend/jammu.html')
 # ---------- Destination Prediction ----------
 def destination(request):
     result = None
