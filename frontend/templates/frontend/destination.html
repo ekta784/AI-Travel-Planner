@@ -25,7 +25,7 @@
 <body>
  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
    <div class="container">
-     <a class="navbar-brand" href="index.html">WanderAI<span>Travel Agency</span></a>
+     <a class="navbar-brand" href="{% url 'index' %}">WanderAI<span>Travel Agency</span></a>
      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
        <span class="oi oi-menu"></span> Menu
      </button>
@@ -45,7 +45,7 @@
  </nav>
  <!-- END nav -->
 
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{% static 'images/bg_1.jpg' %}');">
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{% static 'images/bg.jpg' %}');">
   <div class="overlay"></div>
   <div class="container">
     <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
@@ -98,20 +98,17 @@
                <div class="select-wrap">
                 <div class="icon"><span class="fa fa-chevron-down"></span></div>
                 <select name="" id="" class="form-control">
-                  <option value="">$5,000</option>
-                  <option value="">$10,000</option>
-                  <option value="">$50,000</option>
-                  <option value="">$100,000</option>
-                  <option value="">$200,000</option>
-                  <option value="">$300,000</option>
-                  <option value="">$400,000</option>
-                  <option value="">$500,000</option>
-                  <option value="">$600,000</option>
-                  <option value="">$700,000</option>
-                  <option value="">$800,000</option>
-                  <option value="">$900,000</option>
-                  <option value="">$1,000,000</option>
-                  <option value="">$2,000,000</option>
+                  <option value="10000">₹10,000</option>
+                  <option value="20000">₹20,000</option>
+                  <option value="30000">₹30,000</option>
+                  <option value="40000">₹40,000</option>
+                  <option value="50000">₹50,000</option>
+                  <option value="60000">₹60,000</option>
+                  <option value="70000">₹70,000</option>
+                  <option value="80000">₹80,000</option>
+                  <option value="90000">₹90,000</option>
+                  <option value="100000">₹1,00,000</option>
+
               </select>
           </div>
       </div>
@@ -213,20 +210,17 @@
                               <div class="select-wrap">
                                  <div class="icon"><span class="fa fa-chevron-down"></span></div>
                                  <select name="price" class="form-control">
-                                    <option value="5000">$5,000</option>
-                                    <option value="10000">$10,000</option>
-                                    <option value="50000">$50,000</option>
-                                    <option value="100000">$100,000</option>
-                                    <option value="200000">$200,000</option>
-                                    <option value="300000">$300,000</option>
-                                    <option value="400000">$400,000</option>
-                                    <option value="500000">$500,000</option>
-                                    <option value="600000">$600,000</option>
-                                    <option value="700000">$700,000</option>
-                                    <option value="800000">$800,000</option>
-                                    <option value="900000">$900,000</option>
-                                    <option value="1000000">$1,000,000</option>
-                                    <option value="2000000">$2,000,000</option>
+                                    <option value="10000">₹10,000</option>
+                                    <option value="20000">₹20,000</option>
+                                    <option value="30000">₹30,000</option>
+                                    <option value="40000">₹40,000</option>
+                                    <option value="50000">₹50,000</option>
+                                    <option value="60000">₹60,000</option>
+                                    <option value="70000">₹70,000</option>
+                                    <option value="80000">₹80,000</option>
+                                    <option value="90000">₹90,000</option>
+                                    <option value="100000">₹1,00,000</option>
+
                                  </select>
                               </div>
                            </div>
@@ -281,7 +275,8 @@
 
 
 
-
+<br>
+<br>
 <section class="ftco-intro ftco-section ftco-no-pt">
     <div class="container">
         <div class="row justify-content-center">
