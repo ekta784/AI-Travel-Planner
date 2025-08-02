@@ -93,10 +93,25 @@ def destination(request):
 
 def generate_day_plan(spots, days):
     itinerary = []
-    daily_spots = [spots[i::days] for i in range(days)]  # Distribute spots over days
-    for i, daily in enumerate(daily_spots, start=1):
-        plan = f"Day {i}: Visit " + ", ".join(daily)
-        itinerary.append(plan)
+    spots_per_day = [spots[i::days] for i in range(days)]  # Spread spots across days
+
+    for i, daily_spots in enumerate(spots_per_day, start=1):
+        morning = daily_spots[:1]
+        afternoon = daily_spots[1:2]
+        evening = daily_spots[2:3]
+
+        day_plan = f"""
+        <strong>Day {i}</strong><br>
+        🕗 8:00 AM - Breakfast at local cafe<br>
+        🕘 9:30 AM - Visit: {morning[0] if morning else 'Relax at hotel'}<br>
+        🕛 12:30 PM - Lunch break<br>
+        🕐 2:00 PM - Visit: {afternoon[0] if afternoon else 'Explore nearby markets'}<br>
+        🕔 5:00 PM - Tea & Relax<br>
+        🕕 6:30 PM - Visit: {evening[0] if evening else 'Evening walk or leisure'}<br>
+        🕗 8:00 PM - Dinner at recommended restaurant
+        """
+        itinerary.append(day_plan.strip())
+
     return itinerary
 
 def get_itinerary(request):
@@ -124,7 +139,15 @@ def get_itinerary(request):
             img_url = wiki_data.get("thumbnail", {}).get("source", "")
 
             # Dummy Best Time Logic
-            best_time = "October to March (cooler weather and festivals)"
+            # best_time = "October to March (cooler weather and festivals)"
+            # Example with WeatherAPI (Free Tier)
+            weather_api = "208353ddd5834b7389361041250208"
+            weather_data = requests.get(
+                f"http://api.weatherapi.com/v1/current.json?key={weather_api}&q={destination}"
+            ).json()
+            temp = weather_data.get("current", {}).get("temp_c")
+            condition = weather_data.get("current", {}).get("condition", {}).get("text")
+            best_time = f"Current temperature: {temp}°C, Condition: {condition}"
 
             # OpenTripMap Spots
             key = "5ae2e3f221c38a28845f05b66b9c9cd4f465f02a2d459fa779425027"
