@@ -60,72 +60,81 @@
 <section class="ftco-section ftco-no-pb">
    <div class="container">
       <div class="row">
+         
        <div class="col-md-12">
+          <div class="mb-4 p-4 bg-light border rounded ftco-animate">
+               <h3 class="text-center">🧭 Have a place in mind?</h3>
+               <p class="text-center mb-0">Let's dive into your chosen destination and explore a custom itinerary built just for you!</p>
+            </div>
           <div class="search-wrap-1 ftco-animate">
-             <form action="#" class="search-property-1">
-                <div class="row no-gutters">
-                   <div class="col-lg d-flex">
-                      <div class="form-group p-4 border-0">
-                         <label for="#">Destination</label>
-                         <div class="form-field">
-                           <div class="icon"><span class="fa fa-search"></span></div>
-                           <input type="text" class="form-control" placeholder="Search place">
-                       </div>
-                   </div>
-               </div>
-               <div class="col-lg d-flex">
-                  <div class="form-group p-4">
-                     <label for="#">Check-in date</label>
-                     <div class="form-field">
-                       <div class="icon"><span class="fa fa-calendar"></span></div>
-                       <input type="text" class="form-control checkin_date" placeholder="Check In Date">
-                   </div>
-               </div>
-           </div>
-           <div class="col-lg d-flex">
-              <div class="form-group p-4">
-                 <label for="#">Check-out date</label>
-                 <div class="form-field">
-                   <div class="icon"><span class="fa fa-calendar"></span></div>
-                   <input type="text" class="form-control checkout_date" placeholder="Check Out Date">
-               </div>
-           </div>
-       </div>
-       <div class="col-lg d-flex">
-          <div class="form-group p-4">
-             <label for="#">Price Limit</label>
-             <div class="form-field">
-               <div class="select-wrap">
-                <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                <select name="" id="" class="form-control">
-                  <option value="">$5,000</option>
-                  <option value="">$10,000</option>
-                  <option value="">$50,000</option>
-                  <option value="">$100,000</option>
-                  <option value="">$200,000</option>
-                  <option value="">$300,000</option>
-                  <option value="">$400,000</option>
-                  <option value="">$500,000</option>
-                  <option value="">$600,000</option>
-                  <option value="">$700,000</option>
-                  <option value="">$800,000</option>
-                  <option value="">$900,000</option>
-                  <option value="">$1,000,000</option>
-                  <option value="">$2,000,000</option>
-              </select>
-          </div>
+           
+            <form id="search-form" onsubmit="return false;" class="search-property-1">
+  <div class="row no-gutters">
+    <!-- Destination -->
+    <div class="col-lg d-flex">
+      <div class="form-group p-4 border-0">
+        <label>Destination</label>
+        <div class="form-field">
+          <div class="icon"><span class="fa fa-search"></span></div>
+          <input type="text" class="form-control" id="destination-input" placeholder="Search place">
+        </div>
       </div>
-  </div>
-</div>
-<div class="col-lg d-flex">
-  <div class="form-group d-flex w-100 border-0">
-     <div class="form-field w-100 align-items-center d-flex">
-        <input type="submit" value="Search" class="align-self-stretch form-control btn btn-primary">
     </div>
-</div>
-</div>
-</div>
+
+    <!-- Check-in -->
+    <div class="col-lg d-flex">
+      <div class="form-group p-4">
+        <label>Check-in date</label>
+        <div class="form-field">
+          <div class="icon"><span class="fa fa-calendar"></span></div>
+          <input type="date" class="form-control" id="checkin-date">
+        </div>
+      </div>
+    </div>
+
+    <!-- Check-out -->
+    <div class="col-lg d-flex">
+      <div class="form-group p-4">
+        <label>Check-out date</label>
+        <div class="form-field">
+          <div class="icon"><span class="fa fa-calendar"></span></div>
+          <input type="date" class="form-control" id="checkout-date">
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget -->
+    <div class="col-lg d-flex">
+      <div class="form-group p-4">
+        <label>Budget</label>
+        <div class="form-field">
+          <div class="icon"><span class="fa fa-chevron-down"></span></div>
+          <select id="budget" class="form-control">
+            <option value="10000">₹10,000</option>
+            <option value="20000">₹20,000</option>
+            <option value="30000">₹30,000</option>
+            <option value="40000">₹40,000</option>
+            <option value="50000">₹50,000</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="col-lg d-flex">
+      <div class="form-group d-flex w-100 border-0">
+        <div class="form-field w-100 align-items-center d-flex">
+          <input type="submit" value="Search" class="align-self-stretch form-control btn btn-primary">
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
+
+<div id="api-results" class="mt-4"></div>
+
+{% comment %} <div id="api-results" class="mt-4"></div> {% endcomment %}
+
 </div>
 </div>
 </div>
@@ -133,10 +142,16 @@
 </section>
 
 
+
 <section class="ftco-section ftco-no-pb">
    <div class="container">
       <div class="row">
+         
          <div class="col-md-12">
+            <div class="mb-4 p-4 bg-light border rounded ftco-animate">
+            <h3 class="text-center">✨ Not sure where to go?</h3>
+            <p class="text-center mb-0">Generate the best destination based on your preferences, travel dates, and budget!</p>
+         </div>
             <div class="search-wrap-1 ftco-animate">
                <form action="{% url 'destination' %}" method="POST" class="search-property-1">
                   {% csrf_token %}
@@ -213,20 +228,16 @@
                               <div class="select-wrap">
                                  <div class="icon"><span class="fa fa-chevron-down"></span></div>
                                  <select name="price" class="form-control">
-                                    <option value="5000">$5,000</option>
-                                    <option value="10000">$10,000</option>
-                                    <option value="50000">$50,000</option>
-                                    <option value="100000">$100,000</option>
-                                    <option value="200000">$200,000</option>
-                                    <option value="300000">$300,000</option>
-                                    <option value="400000">$400,000</option>
-                                    <option value="500000">$500,000</option>
-                                    <option value="600000">$600,000</option>
-                                    <option value="700000">$700,000</option>
-                                    <option value="800000">$800,000</option>
-                                    <option value="900000">$900,000</option>
-                                    <option value="1000000">$1,000,000</option>
-                                    <option value="2000000">$2,000,000</option>
+                                    <option value="10000">₹10,000</option>
+                                    <option value="20000">₹20,000</option>
+                                    <option value="30000">₹30,000</option>
+                                    <option value="40000">₹40,000</option>
+                                    <option value="50000">₹50,000</option>
+                                    <option value="60000">₹60,000</option>
+                                    <option value="70000">₹70,000</option>
+                                    <option value="80000">₹80,000</option>
+                                    <option value="90000">₹90,000</option>
+                                    <option value="100000">₹100,000</option>
                                  </select>
                               </div>
                            </div>
@@ -280,7 +291,7 @@
 {% endif %}
 
 
-
+<br><br>
 
 <section class="ftco-intro ftco-section ftco-no-pt">
     <div class="container">
@@ -390,6 +401,50 @@
 
 <script src="{% static 'js/google-map.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    const csrfToken = '{{ csrf_token }}';
+
+    $('#search-form').on('submit', function (e) {
+      e.preventDefault();
+
+      const data = {
+        destination: $('#destination-input').val().trim(),
+        checkin: $('#checkin-date').val(),
+        checkout: $('#checkout-date').val(),
+        budget: $('#budget').val(),
+        csrfmiddlewaretoken: csrfToken,
+      };
+
+      if (!data.destination || !data.checkin || !data.checkout || !data.budget) {
+        $('#api-results').html('<p class="text-danger">Please fill out all fields.</p>');
+        return;
+      }
+
+      $('#api-results').html('<p>Loading itinerary info...</p>');
+
+      $.post('/get_itinerary/', data, function (response) {
+        $('#api-results').html(`
+          <div class="alert alert-info p-4 rounded shadow">
+            <h3>🌍 Itinerary for <strong>${data.destination}</strong></h3>
+            <p><strong>📅 Best time to visit:</strong> ${response.best_time}</p>
+            <p><strong>📖 About:</strong> ${response.description}</p>
+            <p><strong>💰 Estimated Budget:</strong> ${response.budget}</p>
+            <p><strong>🗓️ Day-by-day Plan:</strong></p>
+            <ul>${response.itinerary.map(day => `<li>${day}</li>`).join('')}</ul>
+            <p><strong>📌 Recommended Spots:</strong></p>
+            <ul>${response.spots.map(s => `<li>${s}</li>`).join('')}</ul>
+            <img src="${response.image}" alt="Place Image" class="img-fluid mt-3">
+          </div>
+        `);
+      }).fail(function () {
+        $('#api-results').html('<p class="text-danger">❌ Failed to fetch itinerary.</p>');
+      });
+    });
+  });
+</script>
+
+
 
 </body>
 </html>
