@@ -40,6 +40,8 @@
 										<li class="nav-item"><a href="{% url 'hotel' %}" class="nav-link">Hotel</a></li>
 										<li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
 										<li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                                        {% comment %} <li class="nav-item"><a href="#" class="nav-link">Sign Up</a></li> {% endcomment %}
+
 
                 </ul>
             </div>
@@ -48,8 +50,20 @@
     <!-- END NAV -->
 
     <!-- HERO SECTION -->
-    <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_bg.jpg' %}');">
-        <div class="overlay"></div>
+    {% comment %} <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_bg.jpg' %}');">
+        <div class="overlay"></div> {% endcomment %}
+        <div class="hero-wrap js-fullheight" style="position: relative; overflow: hidden;">
+
+    <!-- Video Background -->
+    <video autoplay muted loop playsinline
+           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                  object-fit: cover; z-index: -1;">
+        <source src="{% static 'videos/stars.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay (your same class) -->
+    <div class="overlay"></div>
         <div class="container">
             <div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
                 <div class="col-md-7 ftco-animate">
