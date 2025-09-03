@@ -387,25 +387,49 @@
       $('#api-results').html('<p>Loading itinerary info...</p>');
 
       $.post('/get_itinerary/', data, function (response) {
+        // If backend returned error, show it
+        if (response.error) {
+          $('#api-results').html(`<p class="text-danger">❌ ${response.error}</p>`);
+          return;
+        }
+
+        // Render Gemini response
         $('#api-results').html(`
           <div class="alert alert-info p-4 rounded shadow">
             <h3>🌍 Itinerary for <strong>${data.destination}</strong></h3>
             <p><strong>📅 Current Conditions:</strong> ${response.best_time}</p>
             <p><strong>📖 About:</strong> ${response.description}</p>
             <p><strong>💰 Estimated Budget:</strong> ${response.budget}</p>
+            
             <p><strong>🗓️ Day-by-day Plan:</strong></p>
-            <ul>${response.itinerary.map(day => `<li>${day}</li>`).join('')}</ul>
+            <ul>
+              ${Array.isArray(response.itinerary) 
+                ? response.itinerary.map(day => `<li>${day}</li>`).join('') 
+                : `<li>${response.itinerary}</li>`}
+            </ul>
+            
             <p><strong>📌 Recommended Spots:</strong></p>
-            <ul>${response.spots.map(s => `<li>${s}</li>`).join('')}</ul>
-            <img src="${response.image}" alt="Place Image" class="img-fluid mt-3">
+            <ul>
+              ${Array.isArray(response.spots) 
+                ? response.spots.map(s => `<li>${s}</li>`).join('') 
+                : `<li>${response.spots}</li>`}
+            </ul>
+            
+            ${response.image 
+              ? `<img src="${response.image}" alt="Place Image" class="img-fluid mt-3 rounded shadow">` 
+              : ""}
           </div>
         `);
-      }).fail(function () {
-        $('#api-results').html('<p class="text-danger">❌ Failed to fetch itinerary.</p>');
+      }).fail(function (xhr) {
+        // Fail handler will now show raw error text
+        $('#api-results').html(
+          `<p class="text-danger">❌ Server error: ${xhr.responseText || 'Unknown error'}</p>`
+        );
       });
     });
   });
 </script>
+
 <script>
 document.getElementById("recommend-form").addEventListener("submit", function(e) {
     e.preventDefault();

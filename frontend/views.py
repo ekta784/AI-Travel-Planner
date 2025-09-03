@@ -127,99 +127,83 @@ def jammu(request):
 # ---------- Destination Prediction ----------
 
 
-def generate_day_plan(spots, days):
-    itinerary = []
-    spots_per_day = [spots[i::days] for i in range(days)]  # Spread spots across days
+import json
+from datetime import datetime
+from django.http import JsonResponse
+import google.generativeai as genai
 
-    for i, daily_spots in enumerate(spots_per_day, start=1):
-        morning = daily_spots[:1]
-        afternoon = daily_spots[1:2]
-        evening = daily_spots[2:3]
-
-        day_plan = f"""
-        <strong>Day {i}</strong><br>
-        🕗 8:00 AM - Breakfast at local cafe<br>
-        🕘 9:30 AM - Visit: {morning[0] if morning else 'Relax at hotel'}<br>
-        🕛 12:30 PM - Lunch break<br>
-        🕐 2:00 PM - Visit: {afternoon[0] if afternoon else 'Explore nearby markets'}<br>
-        🕔 5:00 PM - Tea & Relax<br>
-        🕕 6:30 PM - Visit: {evening[0] if evening else 'Evening walk or leisure'}<br>
-        🕗 8:00 PM - Dinner at recommended restaurant
-        """
-        itinerary.append(day_plan.strip())
-
-    return itinerary
+genai.configure(api_key="AIzaSyCeGx6nQoRqJkvFG_krQfuM33SpqVJtlC8")  # Replace with your key
 
 def get_itinerary(request):
-    if request.method == "POST":
-        destination = request.POST.get("destination")
-        checkin = request.POST.get("checkin")
-        checkout = request.POST.get("checkout")
-        budget = request.POST.get("budget")
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request method."})
 
-        if not all([destination, checkin, checkout, budget]):
-            return JsonResponse({"error": "Missing input."}, status=400)
+    destination = request.POST.get("destination")
+    checkin = request.POST.get("checkin")
+    checkout = request.POST.get("checkout")
+    budget = request.POST.get("budget")
 
+    if not all([destination, checkin, checkout, budget]):
+        return JsonResponse({"error": "Missing input."})
+
+    try:
+        total_days = (datetime.strptime(checkout, "%Y-%m-%d") - datetime.strptime(checkin, "%Y-%m-%d")).days + 1
+        if total_days <= 0:
+            return JsonResponse({"error": "Invalid date range."})
+
+        model = genai.GenerativeModel("gemini-2.5-pro")
+
+        prompt = f"""
+You are a professional travel planner.
+Destination: {destination}
+Duration: {total_days} days
+Budget: ₹{budget}
+
+Provide ONLY valid JSON output like this:
+{{
+  "description": "Short intro about {destination}",
+  "spots": ["Spot1", "Spot2", ..., "Spot10"],
+  "itinerary": [
+    "Day 1: Morning - ..., Afternoon - ..., Evening - ...",
+    "Day 2: Morning - ..., Afternoon - ..., Evening - ..."
+  ]
+}}
+No markdown, no backticks, no explanations. Only JSON.
+"""
+        gemini_resp = model.generate_content(prompt)
+        text_output = gemini_resp.candidates[0].content.parts[0].text.strip()
+
+        # Try JSON parsing
         try:
-            # Dates & Duration
-            start_date = datetime.strptime(checkin, "%Y-%m-%d")
-            end_date = datetime.strptime(checkout, "%Y-%m-%d")
-            total_days = (end_date - start_date).days + 1
-            if total_days <= 0:
-                return JsonResponse({"error": "Invalid date range."}, status=400)
+            parsed = json.loads(text_output)
+        except:
+            # Attempt a simple correction: extract first {...} block
+            start = text_output.find("{")
+            end = text_output.rfind("}") + 1
+            if start != -1 and end != -1:
+                try:
+                    parsed = json.loads(text_output[start:end])
+                except:
+                    parsed = {
+                        "description": f"Explore {destination}",
+                        "spots": [f"Visit {destination} landmarks"],
+                        "itinerary": [f"Day {i+1}: Explore {destination}" for i in range(total_days)]
+                    }
+            else:
+                parsed = {
+                    "description": f"Explore {destination}",
+                    "spots": [f"Visit {destination} landmarks"],
+                    "itinerary": [f"Day {i+1}: Explore {destination}" for i in range(total_days)]
+                }
 
-            # Wikipedia Description
-            try:
-                wiki_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{destination}"
-                wiki_data = requests.get(wiki_url, timeout=5).json()
-                description = wiki_data.get("extract", "No information available.")
-                img_url = wiki_data.get("thumbnail", {}).get("source", "")
-            except Exception:
-                description, img_url = "No information available.", ""
+        return JsonResponse({
+            "description": parsed.get("description", f"Explore {destination}"),
+            "best_time": "Weather info not included (Gemini-only).",
+            "budget": f"₹{budget} for {total_days} days",
+            "spots": parsed.get("spots", []),
+            "itinerary": parsed.get("itinerary", []),
+            "image": "",
+        })
 
-            # Weather API (Safe)
-            best_time = "Weather data unavailable."
-            try:
-                if lat and lon:
-                    weather_resp = requests.get(
-                        f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true",
-                        timeout=5
-                    ).json()
-                    if "current_weather" in weather_resp:
-                        temp = weather_resp["current_weather"].get("temperature", "N/A")
-                        wind = weather_resp["current_weather"].get("windspeed", "N/A")
-                        best_time = f"Current temperature: {temp}°C, Windspeed: {wind} km/h"
-            except Exception:
-                pass
-
-            # OpenTripMap API (Safe)
-            spots = []
-            try:
-                key = "5ae2e3f221c38a28845f05b66b9c9cd4f465f02a2d459fa779425027"
-                geo = requests.get(
-                    f"https://api.opentripmap.com/0.1/en/places/geoname?name={destination}&apikey={key}",
-                    timeout=5
-                ).json()
-                lat, lon = geo.get("lat"), geo.get("lon")
-                if lat and lon:
-                    places_url = f"https://api.opentripmap.com/0.1/en/places/radius?radius=10000&lon={lon}&lat={lat}&limit=15&apikey={key}"
-                    places_resp = requests.get(places_url, timeout=5).json()
-                    spots = [p["properties"]["name"] for p in places_resp.get("features", []) if p["properties"].get("name")]
-            except Exception:
-                spots = ["Explore local culture", "Visit city center"]
-
-            itinerary = generate_day_plan(spots, total_days)
-
-            return JsonResponse({
-                "description": description,
-                "best_time": best_time,
-                "budget": f"₹{budget} for {total_days} days",
-                "spots": spots[:10],
-                "itinerary": itinerary,
-                "image": img_url,
-            })
-
-        except Exception as e:
-            return JsonResponse({"error": f"Something went wrong: {str(e)}"}, status=500)
-
-    return JsonResponse({"error": "Invalid request method."}, status=405)
+    except Exception as e:
+        return JsonResponse({"error": f"Gemini error: {str(e)}"})
