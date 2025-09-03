@@ -18,4 +18,5 @@ urlpatterns = [
     path('kerala/', views.kerala, name='kerala'),
     path('jammu/', views.jammu, name='jammu'),
     path('get_itinerary/', views.get_itinerary, name='get_itinerary'),
+    path('predict_destination/', views.predict_destination, name='predict_destination'),
 ]

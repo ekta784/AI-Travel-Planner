@@ -8758,7 +8758,7 @@ h1, h2, h3, h4, h5,
     display: block; }
   .search-property-1 .form-group .form-control {
     padding: 0;
-    padding-left: 20px;
+    padding-left: 0;
     display: block;
     width: 100%;
     height: inherit !important;

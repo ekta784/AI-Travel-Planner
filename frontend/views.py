@@ -8,21 +8,79 @@ from django.http import JsonResponse
 import requests
 from datetime import datetime, timedelta
 import math
+import os
+import json
+import joblib
+import numpy as np
+import pandas as pd
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from sklearn.neighbors import NearestNeighbors   # <-- Import added
 
-# ---------- Load Model & Encoders ----------
-MODEL_DIR = os.path.join(settings.BASE_DIR, 'frontend', 'ml_models')
+# Define models directory inside project
+MODEL_DIR = os.path.join(settings.BASE_DIR, "ml_models")
 
-try:
-    knn_model = joblib.load(os.path.join(MODEL_DIR, 'knn_model.pkl'))
-    le_section = joblib.load(os.path.join(MODEL_DIR, 'le_section.pkl'))
-    le_type = joblib.load(os.path.join(MODEL_DIR, 'le_type.pkl'))
-    le_destination = joblib.load(os.path.join(MODEL_DIR, 'le_destination.pkl'))
-except Exception as e:
-    knn_model = None
-    le_section = None
-    le_type = None
-    le_destination = None
-    print(f"[ERROR] Model loading failed: {e}")
+# Load objects
+model = joblib.load(os.path.join(MODEL_DIR, "knn_model.pkl"))   # base NearestNeighbors model
+label_encoders = joblib.load(os.path.join(MODEL_DIR, "label_encoders.pkl"))
+scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
+df = joblib.load(os.path.join(MODEL_DIR, "travel_dataset.pkl"))  # dataset for lookup
+
+@csrf_exempt
+def predict_destination(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            # Extract user input
+            region = data.get("section")   # frontend sends "section"
+            destination_type = data.get("destination_type")
+            total_days = int(data.get("total_days"))
+            total_persons = int(data.get("total_persons"))
+            budget = int(data.get("budget"))
+
+            # Encode categorical inputs
+            region_encoded = label_encoders["Region"].transform([region])[0]
+
+            # Filter dataset by destination_type
+            df_filtered = df[df["Destination_Type"] == destination_type].copy()
+            if df_filtered.empty:
+                return JsonResponse({"error": f"No destinations found for type: {destination_type}"}, status=404)
+
+            # Features for filtered dataset
+            X_filt = df_filtered[["Region_encoded", "Total_Days", "Total_Persons", "Budget_Per_Person"]]
+            X_filt_scaled = scaler.transform(X_filt)
+
+            # Train temporary NN model for this subset
+            knn_temp = NearestNeighbors(n_neighbors=min(5, len(df_filtered)), metric="euclidean")
+            knn_temp.fit(X_filt_scaled)
+
+            # Encode + scale user input
+            user_input = pd.DataFrame(
+                [[region_encoded, total_days, total_persons, budget]],
+                columns=["Region_encoded", "Total_Days", "Total_Persons", "Budget_Per_Person"]
+            )
+            user_scaled = scaler.transform(user_input)
+
+            # Get nearest neighbors
+            distances, indices = knn_temp.kneighbors(user_scaled, n_neighbors=min(5, len(df_filtered)))
+
+            recommendations = df_filtered.iloc[indices[0]][
+                ["Destination_Name", "Destination_Type", "Region", "Total_Days", "Total_Persons", "Budget_Per_Person"]
+            ]
+
+            return JsonResponse({"recommendations": recommendations.to_dict(orient="records")})
+        
+        except Exception as e:
+            import traceback
+            print("🔥 ERROR in predict_destination:", e)
+            traceback.print_exc()   # <-- shows full stack trace in console
+            return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
 
 # ---------- Static Pages ----------
 def index(request):
@@ -30,6 +88,9 @@ def index(request):
 
 def about(request):
     return render(request, 'frontend/about.html')
+
+def destination(request):
+    return render(request, 'frontend/destination.html')
 
 def contact(request):
     return render(request, 'frontend/contact.html')
@@ -64,32 +125,7 @@ def kerala(request):
 def jammu(request):
     return render(request, 'frontend/jammu.html')
 # ---------- Destination Prediction ----------
-def destination(request):
-    result = None
-    error = None
 
-    if request.method == 'POST':
-        try:
-            price = float(request.POST.get('price'))
-            section = request.POST.get('section')
-            dest_type = request.POST.get('destination_type')
-
-            section_encoded = le_section.transform([section])[0]
-            type_encoded = le_type.transform([dest_type])[0]
-
-            # ✅ Pass only 3 features
-            input_data = [[section_encoded, type_encoded , price]]
-
-            prediction = knn_model.predict(input_data)[0]
-            result = le_destination.inverse_transform([prediction])[0]
-
-        except Exception as e:
-            error = f"Prediction failed: {str(e)}"
-
-    return render(request, 'frontend/destination.html', {
-        'result': result,
-        'error': error
-    })
 
 def generate_day_plan(spots, days):
     itinerary = []
@@ -133,30 +169,44 @@ def get_itinerary(request):
                 return JsonResponse({"error": "Invalid date range."}, status=400)
 
             # Wikipedia Description
-            wiki_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{destination}"
-            wiki_data = requests.get(wiki_url).json()
-            description = wiki_data.get("extract", "No information available.")
-            img_url = wiki_data.get("thumbnail", {}).get("source", "")
+            try:
+                wiki_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{destination}"
+                wiki_data = requests.get(wiki_url, timeout=5).json()
+                description = wiki_data.get("extract", "No information available.")
+                img_url = wiki_data.get("thumbnail", {}).get("source", "")
+            except Exception:
+                description, img_url = "No information available.", ""
 
-            # Dummy Best Time Logic
-            # best_time = "October to March (cooler weather and festivals)"
-            # Example with WeatherAPI (Free Tier)
-            weather_api = "208353ddd5834b7389361041250208"
-            weather_data = requests.get(
-                f"http://api.weatherapi.com/v1/current.json?key={weather_api}&q={destination}"
-            ).json()
-            temp = weather_data.get("current", {}).get("temp_c")
-            condition = weather_data.get("current", {}).get("condition", {}).get("text")
-            best_time = f"Current temperature: {temp}°C, Condition: {condition}"
+            # Weather API (Safe)
+            best_time = "Weather data unavailable."
+            try:
+                if lat and lon:
+                    weather_resp = requests.get(
+                        f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true",
+                        timeout=5
+                    ).json()
+                    if "current_weather" in weather_resp:
+                        temp = weather_resp["current_weather"].get("temperature", "N/A")
+                        wind = weather_resp["current_weather"].get("windspeed", "N/A")
+                        best_time = f"Current temperature: {temp}°C, Windspeed: {wind} km/h"
+            except Exception:
+                pass
 
-            # OpenTripMap Spots
-            key = "5ae2e3f221c38a28845f05b66b9c9cd4f465f02a2d459fa779425027"
-            geo = requests.get(f"https://api.opentripmap.com/0.1/en/places/geoname?name={destination}&apikey={key}").json()
-            lat, lon = geo.get("lat"), geo.get("lon")
-
-            places_url = f"https://api.opentripmap.com/0.1/en/places/radius?radius=10000&lon={lon}&lat={lat}&limit=15&apikey={key}"
-            places_resp = requests.get(places_url).json()
-            spots = [p["properties"]["name"] for p in places_resp.get("features", []) if p["properties"].get("name")]
+            # OpenTripMap API (Safe)
+            spots = []
+            try:
+                key = "5ae2e3f221c38a28845f05b66b9c9cd4f465f02a2d459fa779425027"
+                geo = requests.get(
+                    f"https://api.opentripmap.com/0.1/en/places/geoname?name={destination}&apikey={key}",
+                    timeout=5
+                ).json()
+                lat, lon = geo.get("lat"), geo.get("lon")
+                if lat and lon:
+                    places_url = f"https://api.opentripmap.com/0.1/en/places/radius?radius=10000&lon={lon}&lat={lat}&limit=15&apikey={key}"
+                    places_resp = requests.get(places_url, timeout=5).json()
+                    spots = [p["properties"]["name"] for p in places_resp.get("features", []) if p["properties"].get("name")]
+            except Exception:
+                spots = ["Explore local culture", "Visit city center"]
 
             itinerary = generate_day_plan(spots, total_days)
 
@@ -164,7 +214,7 @@ def get_itinerary(request):
                 "description": description,
                 "best_time": best_time,
                 "budget": f"₹{budget} for {total_days} days",
-                "spots": spots[:10],  # Just top 10
+                "spots": spots[:10],
                 "itinerary": itinerary,
                 "image": img_url,
             })

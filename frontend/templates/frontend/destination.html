@@ -142,47 +142,48 @@
 </section>
 
 
-
 <section class="ftco-section ftco-no-pb">
    <div class="container">
       <div class="row">
-         
          <div class="col-md-12">
             <div class="mb-4 p-4 bg-light border rounded ftco-animate">
-            <h3 class="text-center">✨ Not sure where to go?</h3>
-            <p class="text-center mb-0">Generate the best destination based on your preferences, travel dates, and budget!</p>
-         </div>
+               <h3 class="text-center">✨ Not sure where to go?</h3>
+               <p class="text-center mb-0">Generate the best destination based on your preferences, trip duration, group size, and budget!</p>
+            </div>
             <div class="search-wrap-1 ftco-animate">
-               <form action="{% url 'destination' %}" method="POST" class="search-property-1">
+               <form id="recommend-form" class="search-property-1">
                   {% csrf_token %}
                   <div class="row no-gutters">
 
                      <!-- Section -->
-                     <div class="col-lg d-flex">
-                        <div class="form-group p-4 border-0">
-                           <label for="#">Section</label>
-                           <div class="form-field">
+                    <div class="col-lg d-flex">
+                        <div class="form-group p-4">
+                            <label for="section">Section</label>
+                            <div class="form-field">
                               <div class="select-wrap">
-                                 <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                                 <select name="section" class="form-control">
+                                  <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                  <select id="section" name="section" class="form-control" required>
+                                    <option value="">-Select-</option>
                                     <option value="North">North</option>
                                     <option value="South">South</option>
                                     <option value="East">East</option>
                                     <option value="West">West</option>
-                                 </select>
+                                    <option value="Central">Central</option>
+                                  </select>
                               </div>
-                           </div>
+                            </div>
                         </div>
-                     </div>
+                      </div>
 
-                     <!-- Destination Type -->
-                     <div class="col-lg d-flex">
-                        <div class="form-group p-4 border-0">
-                           <label for="#">Destination Type</label>
-                           <div class="form-field">
+                      <!-- Destination Type -->
+                      <div class="col-lg d-flex">
+                        <div class="form-group p-4">
+                            <label for="destination_type">Destination Type</label>
+                            <div class="form-field">
                               <div class="select-wrap">
-                                 <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                                 <select name="destination_type" class="form-control">
+                                  <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                  <select id="destination_type" name="destination_type" class="form-control" required>
+                                    <option value="">-Select-</option>
                                     <option value="Beach">Beach</option>
                                     <option value="Hill Station">Hill Station</option>
                                     <option value="Religious">Religious</option>
@@ -192,54 +193,42 @@
                                     <option value="Historical">Historical</option>
                                     <option value="Backwaters">Backwaters</option>
                                     <option value="Island">Island</option>
-                                 </select>
+                                    <option value="Hidden Gem">Hidden Gem</option>
+                                  </select>
                               </div>
-                           </div>
+                            </div>
                         </div>
-                     </div>
+                      </div>
 
-                     <!-- Check-in -->
+                     <!-- Total Days -->
                      <div class="col-lg d-flex">
                         <div class="form-group p-4">
-                           <label for="#">Check-in date</label>
+                           <label for="days">Total Days</label>
                            <div class="form-field">
                               <div class="icon"><span class="fa fa-calendar"></span></div>
-                              <input type="date" class="form-control" name="check_in" required>
+                              <input type="number" min="1" class="form-control" id="days" name="days" placeholder="e.g. 5" required>
                            </div>
                         </div>
                      </div>
 
-                     <!-- Check-out -->
+                     <!-- Total Persons -->
                      <div class="col-lg d-flex">
                         <div class="form-group p-4">
-                           <label for="#">Check-out date</label>
+                           <label for="persons">Total Persons</label>
                            <div class="form-field">
-                              <div class="icon"><span class="fa fa-calendar"></span></div>
-                              <input type="date" class="form-control" name="check_out" required>
+                              <div class="icon"><span class="fa fa-users"></span></div>
+                              <input type="number" min="1" class="form-control" id="persons" name="persons" placeholder="e.g. 4" required>
                            </div>
                         </div>
                      </div>
 
-                     <!-- Price -->
+                     <!-- Budget -->
                      <div class="col-lg d-flex">
                         <div class="form-group p-4">
-                           <label for="#">Price Limit</label>
+                           <label for="budget">Budget(₹/p)</label>
                            <div class="form-field">
-                              <div class="select-wrap">
-                                 <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                                 <select name="price" class="form-control">
-                                    <option value="10000">₹10,000</option>
-                                    <option value="20000">₹20,000</option>
-                                    <option value="30000">₹30,000</option>
-                                    <option value="40000">₹40,000</option>
-                                    <option value="50000">₹50,000</option>
-                                    <option value="60000">₹60,000</option>
-                                    <option value="70000">₹70,000</option>
-                                    <option value="80000">₹80,000</option>
-                                    <option value="90000">₹90,000</option>
-                                    <option value="100000">₹100,000</option>
-                                 </select>
-                              </div>
+                              <div class="icon"><span class="fa fa-money"></span></div>
+                              <input type="number" min="1000" step="500" class="form-control" id="budget" name="budget" placeholder="e.g. 20000" required>
                            </div>
                         </div>
                      </div>
@@ -248,47 +237,21 @@
                      <div class="col-lg d-flex">
                         <div class="form-group d-flex w-100 border-0">
                            <div class="form-field w-100 align-items-center d-flex">
-                              <input type="submit" value="Predict" class="align-self-stretch form-control btn btn-primary">
+                              <input type="submit" value="Generate" class="align-self-stretch form-control btn btn-primary">
                            </div>
                         </div>
                      </div>
+
                   </div>
                </form>
+               <div id="result-box" class="mt-4 text-center text-success fw-bold"></div>
+
             </div>
          </div>
       </div>
    </div>
 </section>
 
-{% if result %}
-<section class="ftco-section bg-light">
-   <div class="container">
-      <div class="row justify-content-center">
-         <div class="col-md-10 text-center ftco-animate">
-            <div class="alert alert-success p-4 rounded shadow">
-               <h3 class="mb-3">🌍 Your Predicted Destination:</h3>
-               <h2 class="text-primary">{{ result }}</h2>
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
-{% endif %}
-
-{% if error %}
-<section class="ftco-section bg-light">
-   <div class="container">
-      <div class="row justify-content-center">
-         <div class="col-md-10 text-center ftco-animate">
-            <div class="alert alert-danger p-4 rounded shadow">
-               <h3 class="mb-3">⚠️ Error:</h3>
-               <p class="text-danger">{{ error }}</p>
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
-{% endif %}
 
 
 <br><br>
@@ -443,6 +406,67 @@
     });
   });
 </script>
+<script>
+document.getElementById("recommend-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let formData = {
+        section: document.getElementById("section").value,
+        destination_type: document.getElementById("destination_type").value,
+        total_days: document.getElementById("days").value,
+        total_persons: document.getElementById("persons").value,
+        budget: document.getElementById("budget").value
+    };
+
+    console.log("📤 Sending data to backend:", formData); // Debugging
+
+    fetch("{% url 'predict_destination' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        console.log("📥 Raw response:", response);
+
+        // Try to parse JSON safely
+        return response.json().catch(err => {
+            console.error("❌ Failed to parse JSON:", err);
+            throw new Error("Invalid JSON response from backend");
+        });
+    })
+    .then(data => {
+        console.log("✅ Parsed backend data:", data);
+
+        if (data.recommendations && data.recommendations.length > 0) {
+            const rec = data.recommendations[0]; // Only first recommendation
+
+            let output = `
+              <div class="alert alert-info p-4 rounded shadow">
+                <h3>🌍 Recommended Destination: <strong>${rec.Destination_Name}</strong></h3>
+                <p><strong>📍 Type:</strong> ${rec.Destination_Type}, ${rec.Region}</p>
+                
+              </div>
+            `;
+
+            document.getElementById("result-box").innerHTML = output;
+        } else {
+            document.getElementById("result-box").innerHTML =
+                "⚠️ No recommendations found.";
+        }
+    })
+    .catch(error => {
+        console.error("🔥 Fetch failed:", error);
+        document.getElementById("result-box").innerHTML =
+            "❌ Something went wrong. Check console for details.";
+    });
+});
+</script>
+
+
+
 
 
 
