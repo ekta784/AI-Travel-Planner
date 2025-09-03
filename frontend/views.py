@@ -132,7 +132,7 @@ from datetime import datetime
 from django.http import JsonResponse
 import google.generativeai as genai
 
-genai.configure(api_key="AIzaSyCeGx6nQoRqJkvFG_krQfuM33SpqVJtlC8")  # Replace with your key
+genai.configure(api_key="")  # Replace with your key
 
 def get_itinerary(request):
     if request.method != "POST":
