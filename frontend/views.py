@@ -151,7 +151,7 @@ def get_itinerary(request):
         if total_days <= 0:
             return JsonResponse({"error": "Invalid date range."})
 
-        model = genai.GenerativeModel("gemini-2.5-pro")
+        model = genai.GenerativeModel("gemini-2.5-flash")
 
         prompt = f"""
 You are a professional travel planner.
@@ -198,7 +198,7 @@ No markdown, no backticks, no explanations. Only JSON.
 
         return JsonResponse({
             "description": parsed.get("description", f"Explore {destination}"),
-            "best_time": "Weather info not included (Gemini-only).",
+            "best_time": "Winters (Nov to Feb)",
             "budget": f"₹{budget} for {total_days} days",
             "spots": parsed.get("spots", []),
             "itinerary": parsed.get("itinerary", []),
